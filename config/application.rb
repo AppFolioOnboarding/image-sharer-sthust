@@ -13,5 +13,7 @@ module Base
     # -- all .rb files in that directory are automatically loaded.
 
     config.active_record.sqlite3.represent_boolean_as_integer = true
+    config.i18n.available_locales = %i[en es]
+    config.i18n.default_locale = :en
   end
 end
