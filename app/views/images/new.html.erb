@@ -1,0 +1,12 @@
+<h1 id="title">
+  <%= t :image_upload_page_title %>
+</h1>
+
+<p id="errors">
+  <%= @image.errors.full_messages.join(", ") if @image %>
+</p>
+
+<%= form_with url: {action: "create"} do |f| %>
+  <%= f.url_field :url %>
+  <%= f.submit t(:image_input_form_field_submit_label) %>
+<% end %>
