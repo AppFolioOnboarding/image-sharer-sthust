@@ -3,6 +3,10 @@ class ImagesController < ActionController::Base
 
   def new; end
 
+  def index
+    @images = retrieve_all_images_desc_order
+  end
+
   def create
     @image = Image.new(url: image_params[:url])
     if @image.valid?
@@ -18,5 +22,9 @@ class ImagesController < ActionController::Base
 
   def image_params
     params.permit(:url)
+  end
+
+  def retrieve_all_images_desc_order
+    Image.all.order(created_at: :desc)
   end
 end
