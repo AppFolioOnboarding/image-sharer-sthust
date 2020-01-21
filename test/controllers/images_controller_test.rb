@@ -2,7 +2,7 @@ require 'test_helper'
 
 class ImagesControllerTest < ActionDispatch::IntegrationTest
   def test_should_get_index
-    get new_images_path
+    get new_image_path
     assert_response :success
     assert_select '#title', 'Upload an image'
   end
@@ -22,5 +22,14 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
     assert_select '#title', 'Viewing image'
     assert_equal 'Image created successfully', flash[:notice]
     assert_select 'img[src=?]', 'https://storage.googleapis.com/hippostcard/p/907658462b9803fc931dec9e8dadd9d4.jpg'
+  end
+
+  def test_index_descending_order
+    Image.create(url: 'test1')
+    Image.create(url: 'test2')
+    get root_path
+    assert_response :success
+    assert_select '#display_image0[src=?]', 'test2'
+    assert_select '#display_image1[src=?]', 'test1'
   end
 end

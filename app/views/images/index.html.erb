@@ -1,0 +1,15 @@
+<table>
+  <tr>
+    <a href=<%= new_image_path %> id="link_to_image_upload_form">
+      <%= t :link_to_image_upload_form %>
+    </a>
+  </tr>
+
+  <% @images.each_with_index do |image, index| %>
+    <tr>
+      <td>
+        <img id="display_image<%= index %>" width='400' src="<%= image.url %>">
+      </td>
+    </tr>
+  <% end %>
+</table>

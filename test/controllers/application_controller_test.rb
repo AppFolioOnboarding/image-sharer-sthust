@@ -5,6 +5,6 @@ class ApplicationControllerTest < ActionDispatch::IntegrationTest
     get root_path
     assert_response :success
     assert_select '#link_to_image_upload_form', I18n.t(:link_to_image_upload_form)
-    assert_select '#link_to_image_upload_form[href=?]', new_images_path
+    assert_select '#link_to_image_upload_form[href=?]', new_image_path
   end
 end
