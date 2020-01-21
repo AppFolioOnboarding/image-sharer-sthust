@@ -1,9 +1,0 @@
-<h1 id="title">
-  <%= t :image_show_page_title%>
-</h1>
-
-<% if flash[:notice] %>
-  <p id="notice"> <%= flash[:notice] %> </p>
-<%end%>
-
-<img id="display_image" src="<%= @image.url %>">
