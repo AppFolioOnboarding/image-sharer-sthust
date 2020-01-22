@@ -1,6 +1,6 @@
 AllCops:
   Exclude:
-    - 'db/schema.rb'
+    - 'db/**/*'
     - 'log/**/*'
     - 'tmp/**/*'
     - 'vendor/**/*'
@@ -18,7 +18,7 @@ Layout/MultilineMethodCallIndentation:
   EnforcedStyle: indented
 
 Metrics/LineLength:
-  Max: 112  # Maximum line length from `rails new`
+  Max: 121  # Maximum line length from `rails new`
 
 Rails:
   Enabled: true
