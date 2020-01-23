@@ -7,23 +7,6 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
     assert_select '#title', 'Upload an image'
   end
 
-  def test_create_with_missing_url_check_error
-    post '/images', params: { images: {} }
-    assert_response :success
-    assert_select '#title', 'Upload an image'
-    assert_select '#errors', 'Url can\'t be blank'
-  end
-
-  def test_create_with_valid_url_check_success
-    post '/images', params: {
-      url: 'https://storage.googleapis.com/hippostcard/p/907658462b9803fc931dec9e8dadd9d4.jpg'
-    }
-    assert_response :success
-    assert_select '#title', 'Viewing image'
-    assert_equal 'Image created successfully', flash[:notice]
-    assert_select 'img[src=?]', 'https://storage.googleapis.com/hippostcard/p/907658462b9803fc931dec9e8dadd9d4.jpg'
-  end
-
   def test_index_descending_order
     Image.create(url: 'test1')
     Image.create(url: 'test2')
@@ -31,5 +14,35 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_select '#display_image0[src=?]', 'test2'
     assert_select '#display_image1[src=?]', 'test1'
+  end
+
+  def test_create_with_missing_url_check_error
+    post '/images', params: { images: {} }
+    assert_response :success
+    assert_select '#title', 'Upload an image'
+    assert_select '#errors', 'Url can\'t be blank'
+  end
+
+  def test_create_with_valid_url_check_and_tags_success
+    post '/images', params: {
+      url: 'https://storage.googleapis.com/hippostcard/p/907658462b9803fc931dec9e8dadd9d4.jpg',
+      tag_list: 'tag1, tag2'
+    }
+    assert_response :success
+    assert_select '#title', 'Viewing image'
+    assert_equal 'Image created successfully', flash[:notice]
+    assert_select 'img[src=?]', 'https://storage.googleapis.com/hippostcard/p/907658462b9803fc931dec9e8dadd9d4.jpg'
+    assert_select '#tags', 'tag1, tag2'
+  end
+
+  def test_create_with_valid_url_check_no_tags
+    post '/images', params: {
+      url: 'https://storage.googleapis.com/hippostcard/p/907658462b9803fc931dec9e8dadd9d4.jpg'
+    }
+    assert_response :success
+    assert_select '#title', 'Viewing image'
+    assert_equal 'Image created successfully', flash[:notice]
+    assert_select 'img[src=?]', 'https://storage.googleapis.com/hippostcard/p/907658462b9803fc931dec9e8dadd9d4.jpg'
+    assert_select '#tags', false
   end
 end
