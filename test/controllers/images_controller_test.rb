@@ -8,12 +8,22 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
   end
 
   def test_index_descending_order
-    Image.create(url: 'test1')
-    Image.create(url: 'test2')
+    Image.create(url: 'test1', tag_list: 'tag1')
+    Image.create(url: 'test2', tag_list: 'tag2, tag3')
     get root_path
     assert_response :success
     assert_select '#display_image0[src=?]', 'test2'
+    assert_select '#tags0', 'tag2, tag3'
     assert_select '#display_image1[src=?]', 'test1'
+    assert_select '#tags1', 'tag1'
+  end
+
+  def test_index_no_tags
+    Image.create(url: 'test1')
+    get root_path
+    assert_response :success
+    assert_select '#display_image0[src=?]', 'test1'
+    assert_select '#tags', false
   end
 
   def test_create_with_missing_url_check_error
