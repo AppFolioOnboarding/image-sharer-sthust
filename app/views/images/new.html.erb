@@ -7,6 +7,11 @@
 </p>
 
 <%= form_with url: {action: "create"} do |f| %>
-  <%= f.url_field :url %>
+  <p>
+    <%= t :image_input_form_field_url_label %> <%= f.url_field :url %>
+  </p>
+  <p>
+    <%= t :image_input_form_field_tag_label %> <%= f.text_field :tag_list %>
+  </p>
   <%= f.submit t(:image_input_form_field_submit_label) %>
 <% end %>

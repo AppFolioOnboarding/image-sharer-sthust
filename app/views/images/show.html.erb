@@ -4,6 +4,10 @@
 
 <% if flash[:notice] %>
   <p id="notice"> <%= flash[:notice] %> </p>
-<%end%>
-
-<img id="display_image" src="<%= @image.url %>">
+<% end %>
+<% if @image.tag_list.any? %>
+  <a><%= t :image_input_form_field_tag_label %></a>  <a id="tags"><%= @image.tag_list %></a>
+  <p>
+<% end %>
+  <img id="display_image" src="<%= @image.url %>">
+</p>
