@@ -4,11 +4,16 @@
       <%= t :link_to_image_upload_form %>
     </a>
   </tr>
-
+  <% if @images.empty? %>
+    <p><%= t :index_no_images_found %></p>
+  <% end %>
   <% @images.each_with_index do |image, index| %>
     <tr>
       <td>
-        <img id="display_image<%= index %>" width='400' src="<%= image.url %>"><% if image.tag_list.any? %><a id="tags<%= index %>"><%= image.tag_list %></a><% end %>
+        <%= image_tag image.url, width: 400, id: "display_image#{index}" %>
+        <% image.tag_list.each_with_index do |tag, tag_index| %>
+          <%= link_to tag, images_path(tag: tag), class: "js-image_tag" %>
+        <% end %>
       </td>
     </tr>
   <% end %>

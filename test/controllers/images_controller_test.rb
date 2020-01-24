@@ -8,22 +8,48 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
   end
 
   def test_index_descending_order
-    Image.create(url: 'test1', tag_list: 'tag1')
-    Image.create(url: 'test2', tag_list: 'tag2, tag3')
+    Image.create(url: 'https://test1', tag_list: 'tag1')
+    Image.create(url: 'https://test2', tag_list: 'tag2, tag3')
     get root_path
     assert_response :success
-    assert_select '#display_image0[src=?]', 'test2'
-    assert_select '#tags0', 'tag2, tag3'
-    assert_select '#display_image1[src=?]', 'test1'
-    assert_select '#tags1', 'tag1'
+    assert_select '#display_image0[src=?]', 'https://test2'
+    assert_select '#display_image1[src=?]', 'https://test1'
+    assert_select '.js-image_tag' do |tags|
+      assert_equal tags[0].attributes['href'].value, '/images?tag=tag2'
+      assert_equal tags[1].attributes['href'].value, '/images?tag=tag3'
+      assert_equal tags[2].attributes['href'].value, '/images?tag=tag1'
+    end
   end
 
-  def test_index_no_tags
-    Image.create(url: 'test1')
+  def test_index_descending_order_with_tag_filter
+    Image.create(url: 'https://test1', tag_list: 'tag1')
+    Image.create(url: 'https://test2', tag_list: 'tag1')
+    Image.create(url: 'https://test3', tag_list: 'tag2, tag3')
+    get '/images?tag=tag1'
+    assert_response :success
+    assert_select '#display_image0[src=?]', 'https://test2'
+    assert_select '#display_image1[src=?]', 'https://test1'
+    assert_select '#display_image3[src=?]', 'https://test3', false
+    assert_select '.js-image_tag' do |tags|
+      assert_equal tags[0].attributes['href'].value, '/images?tag=tag1'
+      assert_equal tags[1].attributes['href'].value, '/images?tag=tag1'
+    end
+  end
+
+  def test_index_image_without_tags
+    Image.create(url: 'https://test1')
     get root_path
     assert_response :success
-    assert_select '#display_image0[src=?]', 'test1'
+    assert_select '#display_image0[src=?]', 'https://test1'
     assert_select '#tags', false
+  end
+
+  def test_index_no_image_for_tag
+    Image.create(url: 'https://test1', tag_list: 'tag1')
+    get '/images?tag=tag2'
+    assert_response :success
+    assert_select '#link_to_image_upload_form', 'Click here to upload an image'
+    assert_select 'p', 'No images found :('
   end
 
   def test_create_with_missing_url_check_error
