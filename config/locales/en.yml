@@ -29,5 +29,8 @@ en:
   image_show_page_title: "Viewing image"
   image_created_success_message: "Image created successfully"
   index_no_images_found: "No images found :("
+  index_delete_label: "Delete"
+  index_delete_confirm_label: "Are you sure?"
+  image_deleted_success_message: "Image deleted successfully"
 
 

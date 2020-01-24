@@ -81,4 +81,14 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
     assert_select 'img[src=?]', 'https://storage.googleapis.com/hippostcard/p/907658462b9803fc931dec9e8dadd9d4.jpg'
     assert_select '#tags', false
   end
+
+  def test_destroy
+    Image.create(url: 'https://test1', tag_list: 'tag1')
+    Image.create(url: 'https://test2', tag_list: 'tag2')
+    delete '/images/2'
+    assert_response follow_redirect!
+    assert_select '#link_to_image_upload_form', 'Click here to upload an image'
+    assert_equal 'Image deleted successfully', flash[:notice]
+    assert_select '#display_image0[src=?]', 'https://test1'
+  end
 end

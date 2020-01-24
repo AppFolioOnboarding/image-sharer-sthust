@@ -1,4 +1,4 @@
-class ImagesController < ActionController::Base
+class ImagesController < ApplicationController
   protect_from_forgery with: :exception
 
   def new; end
@@ -17,6 +17,12 @@ class ImagesController < ActionController::Base
     else
       render :new
     end
+  end
+
+  def destroy
+    Image.find(params[:id]).destroy!
+    flash[:notice] = t :image_deleted_success_message
+    redirect_to root_path
   end
 
   private
