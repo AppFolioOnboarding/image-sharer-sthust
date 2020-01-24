@@ -44,6 +44,14 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
     assert_select '#tags', false
   end
 
+  def test_index_no_image_for_tag
+    Image.create(url: 'https://test1', tag_list: 'tag1')
+    get '/images?tag=tag2'
+    assert_response :success
+    assert_select '#link_to_image_upload_form', 'Click here to upload an image'
+    assert_select 'p', 'No images found :('
+  end
+
   def test_create_with_missing_url_check_error
     post '/images', params: { images: {} }
     assert_response :success

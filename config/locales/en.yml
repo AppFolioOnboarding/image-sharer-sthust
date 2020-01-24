@@ -28,4 +28,6 @@ en:
   image_input_form_field_submit_label: "Submit"
   image_show_page_title: "Viewing image"
   image_created_success_message: "Image created successfully"
+  index_no_images_found: "No images found :("
+
 

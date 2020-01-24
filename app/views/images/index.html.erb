@@ -4,7 +4,9 @@
       <%= t :link_to_image_upload_form %>
     </a>
   </tr>
-
+  <% if @images.empty? %>
+    <p><%= t :index_no_images_found %></p>
+  <% end %>
   <% @images.each_with_index do |image, index| %>
     <tr>
       <td>
