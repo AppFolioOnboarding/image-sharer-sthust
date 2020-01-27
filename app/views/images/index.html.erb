@@ -4,6 +4,9 @@
       <%= t :link_to_image_upload_form %>
     </a>
   </tr>
+  <% if flash[:notice] %>
+    <p id="notice"> <%= flash[:notice] %> </p>
+  <% end %>
   <% if @images.empty? %>
     <p><%= t :index_no_images_found %></p>
   <% end %>
@@ -14,6 +17,7 @@
         <% image.tag_list.each_with_index do |tag, tag_index| %>
           <%= link_to tag, images_path(tag: tag), class: "js-image_tag" %>
         <% end %>
+        <%= link_to (t :index_delete_label), image_path(image), method: :delete, data: { confirm: (t :index_delete_confirm_label) } %>
       </td>
     </tr>
   <% end %>
