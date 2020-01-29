@@ -22,15 +22,16 @@
 en:
   hello: "Hello world"
   link_to_image_upload_form: "Click here to upload an image"
+  link_to_index_page: "Click here to see all images"
   image_upload_page_title: "Upload an image"
   image_input_form_field_url_label: "Image url:"
   image_input_form_field_tag_label: "Image tags:"
   image_input_form_field_submit_label: "Submit"
   image_show_page_title: "Viewing image"
-  image_created_success_message: "Image created successfully"
+  image_created_success_message: "You have successfully added an image."
   index_no_images_found: "No images found :("
   index_delete_label: "Delete"
   index_delete_confirm_label: "Are you sure?"
-  image_deleted_success_message: "Image deleted successfully"
+  image_deleted_success_message: "You have successfully deleted the image."
 
 
