@@ -2,13 +2,15 @@ module PageObjects
   module Images
     class ShowPage < PageObjects::Document
       path :image
+      element :url, locator: '#display_image'
+      element :tag_list, locator: '#tags'
 
       def image_url
-        # TODO
+        url.node[:src]
       end
 
       def tags
-        # TODO
+        tag_list.node.text.split(',').collect(&:strip)
       end
 
       def delete
@@ -22,7 +24,8 @@ module PageObjects
       end
 
       def go_back_to_index!
-        # TODO
+        node.click_on('Click here to see all images')
+        window.change_to(IndexPage)
       end
     end
   end
