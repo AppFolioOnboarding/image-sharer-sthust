@@ -2,8 +2,8 @@
   <%= t :image_show_page_title%>
 </h1>
 
-<% if flash[:notice] %>
-  <p id="notice"> <%= flash[:notice] %> </p>
+<% if flash[:success] %>
+  <p id="success"> <%= flash[:success] %> </p>
 <% end %>
 <% if @image.tag_list.any? %>
   <a><%= t :image_input_form_field_tag_label %></a>  <a id="tags"><%= @image.tag_list %></a>
@@ -11,3 +11,8 @@
 <% end %>
   <img id="display_image" src="<%= @image.url %>">
 </p>
+<tr>
+  <a href=<%= root_path %> id="link_to_index_page">
+    <%= t :link_to_index_page %>
+  </a>
+</tr>

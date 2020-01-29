@@ -8,24 +8,33 @@ class ImagesController < ApplicationController
   end
 
   def create
-    @image = Image.new(url: image_new_params[:url])
-    @image.tag_list.add(image_new_params[:tag_list], parse: true)
+    @image = construct_image_with_tag(image_new_params[:url], image_new_params[:tag_list])
     if @image.valid?
       @image.save!
-      flash[:notice] = t :image_created_success_message
-      render :show
+      flash[:success] = t :image_created_success_message
+      redirect_to image_path(id: @image.id)
     else
       render :new
     end
   end
 
+  def show
+    @image = Image.find_by(id: params[:id])
+  end
+
   def destroy
     Image.find(params[:id]).destroy!
-    flash[:notice] = t :image_deleted_success_message
+    flash[:success] = t :image_deleted_success_message
     redirect_to root_path
   end
 
   private
+
+  def construct_image_with_tag(url, tag_list)
+    image = Image.new(url: url)
+    image.tag_list.add(tag_list, parse: true)
+    image
+  end
 
   def image_new_params
     params.permit(:tag_list, :url)

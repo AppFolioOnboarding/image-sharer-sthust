@@ -12,8 +12,11 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
     Image.create(url: 'https://test2', tag_list: 'tag2, tag3')
     get root_path
     assert_response :success
-    assert_select '#display_image0[src=?]', 'https://test2'
-    assert_select '#display_image1[src=?]', 'https://test1'
+    assert_select '#display_image' do |images|
+      assert_equal images[0].attributes['src'].value, 'https://test2'
+      assert_equal images[1].attributes['src'].value, 'https://test1'
+      assert_equal images.size, 2
+    end
     assert_select '.js-image_tag' do |tags|
       assert_equal tags[0].attributes['href'].value, '/images?tag=tag2'
       assert_equal tags[1].attributes['href'].value, '/images?tag=tag3'
@@ -27,9 +30,11 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
     Image.create(url: 'https://test3', tag_list: 'tag2, tag3')
     get '/images?tag=tag1'
     assert_response :success
-    assert_select '#display_image0[src=?]', 'https://test2'
-    assert_select '#display_image1[src=?]', 'https://test1'
-    assert_select '#display_image3[src=?]', 'https://test3', false
+    assert_select '#display_image' do |images|
+      assert_equal images[0].attributes['src'].value, 'https://test2'
+      assert_equal images[1].attributes['src'].value, 'https://test1'
+      assert_equal images.size, 2
+    end
     assert_select '.js-image_tag' do |tags|
       assert_equal tags[0].attributes['href'].value, '/images?tag=tag1'
       assert_equal tags[1].attributes['href'].value, '/images?tag=tag1'
@@ -40,7 +45,7 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
     Image.create(url: 'https://test1')
     get root_path
     assert_response :success
-    assert_select '#display_image0[src=?]', 'https://test1'
+    assert_select '#display_image[src=?]', 'https://test1'
     assert_select '#tags', false
   end
 
@@ -64,9 +69,9 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
       url: 'https://storage.googleapis.com/hippostcard/p/907658462b9803fc931dec9e8dadd9d4.jpg',
       tag_list: 'tag1, tag2'
     }
-    assert_response :success
+    assert_response follow_redirect!
     assert_select '#title', 'Viewing image'
-    assert_equal 'Image created successfully', flash[:notice]
+    assert_equal 'You have successfully added an image.', flash[:success]
     assert_select 'img[src=?]', 'https://storage.googleapis.com/hippostcard/p/907658462b9803fc931dec9e8dadd9d4.jpg'
     assert_select '#tags', 'tag1, tag2'
   end
@@ -75,9 +80,9 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
     post '/images', params: {
       url: 'https://storage.googleapis.com/hippostcard/p/907658462b9803fc931dec9e8dadd9d4.jpg'
     }
-    assert_response :success
+    assert_response follow_redirect!
     assert_select '#title', 'Viewing image'
-    assert_equal 'Image created successfully', flash[:notice]
+    assert_equal 'You have successfully added an image.', flash[:success]
     assert_select 'img[src=?]', 'https://storage.googleapis.com/hippostcard/p/907658462b9803fc931dec9e8dadd9d4.jpg'
     assert_select '#tags', false
   end
@@ -88,7 +93,10 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
     delete '/images/2'
     assert_response follow_redirect!
     assert_select '#link_to_image_upload_form', 'Click here to upload an image'
-    assert_equal 'Image deleted successfully', flash[:notice]
-    assert_select '#display_image0[src=?]', 'https://test1'
+    assert_equal 'You have successfully deleted the image.', flash[:success]
+    assert_select '#display_image' do |images|
+      assert_equal images[0].attributes['src'].value, 'https://test1'
+      assert_equal images.size, 1
+    end
   end
 end
