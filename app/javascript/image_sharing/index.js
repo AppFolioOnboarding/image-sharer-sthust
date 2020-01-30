@@ -1,18 +1,18 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './components/App';
 import { Provider } from 'mobx-react';
-import FeedbackStore from './stores/FeedbackStore';
+import App from './components/App';
+import Store from './stores/FeedbackStore';
 
 const stores = {
-  feedbackStore: new FeedbackStore()
+  feedbackStore: new Store()
 };
 
 /* Initialize your store here*/
 
 ReactDOM.render(
   <Provider stores={stores}>
-    <App/>
+    <App />
   </Provider>,
   document.getElementById('feedback-root')
 );
