@@ -1,3 +1,4 @@
+require_relative './image_card.rb'
 module PageObjects
   module Images
     class IndexPage < PageObjects::Document
