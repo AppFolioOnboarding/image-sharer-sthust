@@ -4,7 +4,7 @@ import { shallow } from 'enzyme';
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import sinon from 'sinon';
-import AppFeedbackForm from '../../components/FeedbackForm';
+import FeedbackForm from '../../components/FeedbackForm';
 
 describe('<FeedbackForm />', () => {
   it('should render correctly', () => {
@@ -14,7 +14,7 @@ describe('<FeedbackForm />', () => {
     };
     const onClick = sinon.spy();
 
-    const wrapper = shallow(<AppFeedbackForm store={store} onClick={onClick} />);
+    const wrapper = shallow(<FeedbackForm store={store} onClick={onClick} />);
     const form = wrapper.find(Form);
 
     expect(form).to.have.lengthOf(1);

@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { observer } from 'mobx-react';
 
 @observer
-export class FeedbackForm extends Component {
+export default class FeedbackForm extends Component {
   static propTypes = {
     store: PropTypes.object.isRequired,
     onClick: PropTypes.func.isRequired
@@ -43,4 +43,3 @@ export class FeedbackForm extends Component {
   }
 }
 
-export default FeedbackForm;
