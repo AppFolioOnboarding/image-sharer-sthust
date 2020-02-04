@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
-import { inject } from 'mobx-react';
+import { inject, observer } from 'mobx-react';
 import PropTypes from 'prop-types';
 import Body from './Body';
+import FlashMessage from './FlashMessage';
 import Footer from './Footer';
 import Header from './Header';
 
+@observer
 class App extends Component {
   static propTypes = {
     stores: PropTypes.object.isRequired
@@ -15,7 +17,7 @@ class App extends Component {
     return (
       <div>
         <Header title='Tell us what you think' />
-        (/* Put your components here: Flash Message */)
+        <FlashMessage store={feedbackStore} />
         <Body store={feedbackStore} />
         <Footer />
       </div>
