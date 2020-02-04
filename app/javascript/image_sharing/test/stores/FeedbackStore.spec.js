@@ -15,4 +15,23 @@ describe('FeedbackStore', () => {
     store.setComments('some comments');
     expect(store.comments).to.equal('some comments');
   });
+
+  it('should set response', () => {
+    const store = new FeedbackStore();
+    store.setResponse('success', 'store got response!');
+    expect(store.response.status).to.equal('success');
+    expect(store.response.message).to.equal('store got response!');
+  });
+
+  it('should reset form', () => {
+    const store = new FeedbackStore();
+    store.setUserName('soeren');
+    store.setComments('nice job');
+    expect(store.userName).to.equal('soeren');
+    expect(store.comments).to.equal('nice job');
+
+    store.resetForm();
+    expect(store.userName).to.equal('');
+    expect(store.comments).to.equal('');
+  });
 });

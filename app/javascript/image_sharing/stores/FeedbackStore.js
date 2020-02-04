@@ -3,10 +3,15 @@ import { action, observable } from 'mobx';
 export default class FeedbackStore {
   @observable userName;
   @observable comments;
+  @observable response;
 
   constructor() {
     this.userName = '';
     this.comments = '';
+    this.response = {
+      status: null,
+      message: null
+    };
   }
 
   @action
@@ -17,5 +22,17 @@ export default class FeedbackStore {
   @action
   setComments(comments) {
     this.comments = comments;
+  }
+
+  @action
+  setResponse(status, message) {
+    this.response.status = status;
+    this.response.message = message;
+  }
+
+  @action
+  resetForm() {
+    this.userName = '';
+    this.comments = '';
   }
 }
